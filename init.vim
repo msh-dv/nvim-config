@@ -147,7 +147,7 @@ inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 
-"Desarrollo web emacs
+"Completar (emmet)
 let g:user_emmet_leader_key=',' "Doble coma para completar la plantilla
 let g:tagalong_verbose = 1
 
@@ -197,7 +197,7 @@ require('lualine').setup {
 }
 
 require ("toggleterm").setup({
- size = 20,
+ size = 30,
  open_mapping = [[<c-\>]],
  hide_numbers = true,
  shade_filetypes = {},
