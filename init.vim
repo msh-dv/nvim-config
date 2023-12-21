@@ -19,9 +19,7 @@ set hidden
 set splitright 
 set splitbelow
 
-
 call plug#begin('~/.local/share/nvim/plugged')
-
 "Markdown
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
 
@@ -35,7 +33,6 @@ Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'morhetz/gruvbox'
 Plug 'habamax/vim-gruvbit'
 Plug 'sainnhe/sonokai'
-"Plug 'rafi/awesome-vim-colorschemes'
 Plug 'huyvohcmc/atlas.vim'
 Plug 'kooparse/vim-color-desert-night'
 Plug 'ewilazarus/preto'
@@ -50,7 +47,6 @@ Plug 'rebelot/kanagawa.nvim'
 Plug 'rakr/vim-one'
 Plug 'w0ng/vim-hybrid'
 Plug 'joshdick/onedark.vim'
-
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'olimorris/onedarkpro.nvim'
 Plug 'foxbunny/vim-amber'
@@ -58,12 +54,7 @@ Plug 'sainnhe/everforest'
 Plug 'ribru17/bamboo.nvim'
 Plug 'ayu-theme/ayu-vim'
 Plug 'thedenisnikulin/vim-cyberpunk'
-Plug 'nvim-tree/nvim-tree.lua'
-
 Plug 'sainnhe/gruvbox-material'
-Plug 'ryanoasis/vim-devicons'
-Plug 'her/synicons.vim'
-Plug 'ap/vim-css-color'
 Plug 'doums/darcula'
 Plug 'Mcmartelle/vim-monokai-bold'
 Plug 'tomasiser/vim-code-dark'
@@ -74,18 +65,23 @@ Plug 'projekt0n/github-nvim-theme'
 Plug 'kristijanhusak/vim-hybrid-material'
 Plug 'bluz71/vim-nightfly-colors', { 'as': 'nightfly' }
 
+Plug 'nvim-tree/nvim-tree.lua'
+Plug 'ryanoasis/vim-devicons'
+Plug 'her/synicons.vim'
+Plug 'ap/vim-css-color'
+
 Plug 'folke/zen-mode.nvim'
 
-Plug 'nathanaelkane/vim-indent-guides' 
+"scroll fluido"
+Plug 'karb94/neoscroll.nvim'
+
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'nvim-lualine/lualine.nvim'
-"Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
 Plug 'nvim-tree/nvim-web-devicons'
 
 Plug 'turbio/bracey.vim'
 Plug 'mattn/emmet-vim'
 
-"Plug 'dense-analysis/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "Game
@@ -97,30 +93,34 @@ Plug 'junegunn/fzf.vim'
 
 call plug#end()
 
-
+"Tema
 colorscheme gruvbox
 
 let mapleader=" "   "Letra lider(espacio)
+"Atajos personalizados
 nmap <Leader>nt :NvimTreeFindFile<CR>
 nmap <Leader>nr :NvimTreeRefresh<CR>
 nmap <Leader>nc :NvimTreeToggle<CR>
+
 nmap <Leader>w :w<CR>
 nmap <Leader>q :q<CR>
 nmap <Leader>qq :q!<CR>
 nmap <Leader>ww :wq<CR>
+
 nmap <Leader>, :tabprevious<CR>
 nmap <Leader>. :tabnext<CR>
+
 nmap <Leader>di :ALEDisable<CR>
 nmap <Leader>dc :CocDisable<CR>
 
 nmap <Leader>vv :!vivaldi-stable index.html<CR>
-
 nmap <Leader>P :PlugInstall<CR>
 nmap <Leader>T :ToggleTerm direction=horizontal size=15<CR>
 nmap <Leader>F :Files<CR>
 nmap <Leader>A :AirlineToggle<CR>
 nmap <Leader>Z :ZenMode<CR>
 nmap <Leader>N :tabnew file<CR>
+
 "Quitar el marcado despues de una busqueda
 nmap <Leader>s :noh<CR>
 "Regresar a la marca pasada
@@ -133,7 +133,7 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-"Auto cierre de caracteres
+"Cierre de caracteres
 inoremap ( ()<Esc>i
 inoremap { {}<Esc>i
 inoremap {<CR> {<CR>}<Esc>0
@@ -144,22 +144,18 @@ inoremap ' ''<Esc>i
 inoremap <silent><expr> <TAB>
       \ coc#pum#visible() ? coc#pum#next(1) :
       \ CheckBackspace() ? "\<Tab>" :
-            \ coc#refresh()
+      \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 
-"Desarrollo web 
+"Desarrollo web emmet
 let g:user_emmet_leader_key=',' "Doble coma para completar la plantilla
 let g:tagalong_verbose = 1
 
-"require("bufferline").setup{}
-
 
 lua << END
-
-
 require('lualine').setup {
   options = {
     icons_enabled = true,
@@ -208,6 +204,10 @@ require('lualine').setup {
   extensions = {}
 }
 
+require("neoscroll").setup()
+
+require("ibl").setup()
+
 require ("toggleterm").setup({
  size = 20,
  open_mapping = [[<c-\>]],
@@ -243,15 +243,12 @@ end
 
 vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 
-
-
-
 require("nvim-tree").setup{
- actions = {
-        open_file = {
-            quit_on_open = true,
-        },
-    },
+actions = {
+  open_file = {
+    quit_on_open = true,
+  },
+},
 view = {
   width = 30,
 
@@ -260,13 +257,12 @@ renderer = {
   group_empty = true,
   indent_markers = {
     enable = false;
-    }
-},
+  }
+  },
 filters = {
   dotfiles = false,
 },
 \ }
-
 
 require("zen-mode").setup({
 window = {
@@ -276,9 +272,9 @@ window = {
 
 require ("presence").setup({
     auto_update         = true,                       -- Update activity based on autocmd events (if `false`, map or manually execute `:lua package.loaded.presence:update()`)
-    neovim_image_text   = "", -- Text displayed when hovered over the Neovim image
-    main_image          = "",                   -- Main image display (either "neovim" or "file")
-    client_id           = "",       -- Use your own Discord application client id (not recommended)
+    neovim_image_text   = "",                         -- Text displayed when hovered over the Neovim image
+    main_image          = "neovim",                   -- Main image display (either "neovim" or "file")
+    client_id           = "",                         -- Use your own Discord application client id (not recommended)
     log_level           = nil,                        -- Log messages at or above this level (one of the following: "debug", "info", "warn", "error")
     debounce_timeout    = 10,                         -- Number of seconds to debounce events (or calls to `:lua package.loaded.presence:update(<filename>, true)`)
     enable_line_number  = false,                      -- Displays the current line number instead of the current project
@@ -296,5 +292,4 @@ require ("presence").setup({
     workspace_text      = "Working on %s",            -- Format string rendered when in a git repository (either string or function(project_name: string|nil, filename: string): string)
     line_number_text    = "Line %s out of %s",        -- Format string rendered when `enable_line_number` is set to true (either string or function(line_number: number, line_count: number): string)
 })
-
 END
