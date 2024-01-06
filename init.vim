@@ -47,6 +47,7 @@ Plug 'rebelot/kanagawa.nvim'
 Plug 'rakr/vim-one'
 Plug 'w0ng/vim-hybrid'
 Plug 'joshdick/onedark.vim'
+
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'olimorris/onedarkpro.nvim'
 Plug 'foxbunny/vim-amber'
@@ -54,17 +55,6 @@ Plug 'sainnhe/everforest'
 Plug 'ribru17/bamboo.nvim'
 Plug 'ayu-theme/ayu-vim'
 Plug 'thedenisnikulin/vim-cyberpunk'
-Plug 'sainnhe/gruvbox-material'
-Plug 'doums/darcula'
-Plug 'Mcmartelle/vim-monokai-bold'
-Plug 'tomasiser/vim-code-dark'
-Plug 'lifepillar/vim-gruvbox8'
-Plug 'srcery-colors/srcery-vim'
-Plug 'nanotech/jellybeans.vim'
-Plug 'projekt0n/github-nvim-theme'
-Plug 'kristijanhusak/vim-hybrid-material'
-Plug 'bluz71/vim-nightfly-colors', { 'as': 'nightfly' }
-
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'ryanoasis/vim-devicons'
 Plug 'her/synicons.vim'
@@ -84,8 +74,21 @@ Plug 'mattn/emmet-vim'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+"Dashboard
+Plug 'nvimdev/dashboard-nvim'
+"Tagbar
+Plug 'preservim/tagbar'
+"Comentarios
+Plug 'tpope/vim-commentary'
+"Surround
+Plug 'kylechui/nvim-surround'
+"Git
+Plug 'tpope/vim-fugitive'
+
 "Game
 Plug 'johngrib/vim-game-code-break'
+Plug 'alec-gibson/nvim-tetris'
+Plug 'seandewar/killersheep.nvim'
 
 Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -101,6 +104,11 @@ let mapleader=" "   "Letra lider(espacio)
 nmap <Leader>nt :NvimTreeFindFile<CR>
 nmap <Leader>nr :NvimTreeRefresh<CR>
 nmap <Leader>nc :NvimTreeToggle<CR>
+nmap <Leader>t :TagbarToggle<CR>
+nmap <Leader>tn :TagbarJumpNext<CR>
+nmap <Leader>tp :TagbarJumpPrev<CR>
+nmap <Leader>ts :TagbarShowTag<CR>
+
 
 nmap <Leader>w :w<CR>
 nmap <Leader>q :q<CR>
@@ -120,6 +128,9 @@ nmap <Leader>F :Files<CR>
 nmap <Leader>A :AirlineToggle<CR>
 nmap <Leader>Z :ZenMode<CR>
 nmap <Leader>N :tabnew file<CR>
+
+
+
 
 "Quitar el marcado despues de una busqueda
 nmap <Leader>s :noh<CR>
@@ -141,6 +152,7 @@ inoremap [ []<Esc>
 inoremap " ""<Esc>i
 inoremap ' ''<Esc>i
 
+
 inoremap <silent><expr> <TAB>
       \ coc#pum#visible() ? coc#pum#next(1) :
       \ CheckBackspace() ? "\<Tab>" :
@@ -156,6 +168,11 @@ let g:tagalong_verbose = 1
 
 
 lua << END
+
+require('killersheep').setup()
+
+require('nvim-surround').setup()
+
 require('lualine').setup {
   options = {
     icons_enabled = true,
@@ -204,9 +221,61 @@ require('lualine').setup {
   extensions = {}
 }
 
-require("neoscroll").setup()
+require("neoscroll").setup({
 
-require("ibl").setup()
+})
+
+local t = {}
+-- Syntax: t[keys] = {function, {function arguments}}
+t['<C-u>'] = {'scroll', {'-vim.wo.scroll', 'true', '230'}}
+t['<C-d>'] = {'scroll', { 'vim.wo.scroll', 'true', '230'}}
+t['<C-b>'] = {'scroll', {'-vim.api.nvim_win_get_height(0)', 'true', '300'}}
+t['<C-f>'] = {'scroll', { 'vim.api.nvim_win_get_height(0)', 'true', '300'}}
+t['<C-y>'] = {'scroll', {'-0.10', 'false', '100'}}
+t['<C-e>'] = {'scroll', { '0.10', 'false', '100'}}
+t['zt']    = {'zt', {'200'}}
+t['zz']    = {'zz', {'200'}}
+t['zb']    = {'zb', {'200'}}
+
+require('neoscroll.config').set_mappings(t)
+
+require("ibl").setup({
+exclude = {
+  filetypes ={"dashboard"}
+  }
+})
+
+require("dashboard").setup({
+    theme = 'hyper',
+    config = {
+      header = {
+  "",
+  "    _   __ ______ ____  _    __ ____ __  ___",
+  "   / | / // ____// __ \\| |  / //  _//  |/  /",
+  "  /  |/ // __/  / / / /| | / / / / / /|_/ / ",
+  " / /|  // /___ / /_/ / | |/ /_/ / / /  / /  ",
+  "/_/ |_//_____/ \\____/  |___//___//_/  /_/   ",
+  "                                            " ,
+  ""},
+      disable_move ={true},
+      shortcut = {
+            { desc = '󰊳 Update', group = '@property', action = 'PlugUpdate', key = 'u' },
+            {
+              icon = ' ',
+              icon_hl = '@variable',
+              desc = 'Files',
+              group = 'Label',
+              action = 'Files',
+              key = 'f',
+            },
+          },
+	  packages = {false},
+	  project = {enable = false},
+	  mru = {limit = 7},
+      footer = {}
+    },
+  })
+
 
 require ("toggleterm").setup({
  size = 20,
@@ -222,8 +291,11 @@ require ("toggleterm").setup({
  close_on_exit = true,
  shell = vim.o.shell,
  float_opts = {
-  border = "curved",
+  border = "rounded",
   winblend = 0,
+  width = 88,
+  height = 28,
+  winblend = 15,
   highlights = {
    border = "Normal",
    background = "Normal",
@@ -242,6 +314,9 @@ function _G.set_terminal_keymaps()
 end
 
 vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
+
+
+
 
 require("nvim-tree").setup{
 actions = {
@@ -271,25 +346,25 @@ window = {
 })
 
 require ("presence").setup({
-    auto_update         = true,                       -- Update activity based on autocmd events (if `false`, map or manually execute `:lua package.loaded.presence:update()`)
-    neovim_image_text   = "",                         -- Text displayed when hovered over the Neovim image
-    main_image          = "neovim",                   -- Main image display (either "neovim" or "file")
-    client_id           = "",                         -- Use your own Discord application client id (not recommended)
-    log_level           = nil,                        -- Log messages at or above this level (one of the following: "debug", "info", "warn", "error")
-    debounce_timeout    = 10,                         -- Number of seconds to debounce events (or calls to `:lua package.loaded.presence:update(<filename>, true)`)
-    enable_line_number  = false,                      -- Displays the current line number instead of the current project
-    blacklist           = {},                         -- A list of strings or Lua patterns that disable Rich Presence if the current file name, path, or workspace matches
-    buttons             = true,                       -- Configure Rich Presence button(s), either a boolean to enable/disable, a static table (`{{ label = "<label>", url = "<url>" }, ...}`, or a function(buffer: string, repo_url: string|nil): table)
-    file_assets         = {},                         -- Custom file asset definitions keyed by file names and extensions (see default config at `lua/presence/file_assets.lua` for reference)
-    show_time           = true,                       -- Show the timer
+    auto_update         = true,                       
+    neovim_image_text   = "",      
+    main_image          = "neovim",                   
+    client_id           = "",       
+    log_level           = nil,                        
+    debounce_timeout    = 10,                         
+    enable_line_number  = false,                      
+    blacklist           = {},                         
+    buttons             = true,                       
+    file_assets         = {},                         
+    show_time           = true,                       
 
     -- Rich Presence text options
-    editing_text        = "Editing %s",               -- Format string rendered when an editable file is loaded in the buffer (either string or function(filename: string): string)
-    file_explorer_text  = "Browsing %s",              -- Format string rendered when browsing a file explorer (either string or function(file_explorer_name: string): string)
-    git_commit_text     = "Committing changes",       -- Format string rendered when committing changes in git (either string or function(filename: string): string)
-    plugin_manager_text = "Managing plugins",         -- Format string rendered when managing plugins (either string or function(plugin_manager_name: string): string)
-    reading_text        = "Reading %s",               -- Format string rendered when a read-only or unmodifiable file is loaded in the buffer (either string or function(filename: string): string)
-    workspace_text      = "Working on %s",            -- Format string rendered when in a git repository (either string or function(project_name: string|nil, filename: string): string)
-    line_number_text    = "Line %s out of %s",        -- Format string rendered when `enable_line_number` is set to true (either string or function(line_number: number, line_count: number): string)
+    editing_text        = "Editing %s",               
+    file_explorer_text  = "Browsing %s",              
+    git_commit_text     = "Committing changes",       
+    plugin_manager_text = "Managing plugins",         
+    reading_text        = "Reading %s",               
+    workspace_text      = "Working on %s",            
+    line_number_text    = "Line %s out of %s",        
 })
 END
