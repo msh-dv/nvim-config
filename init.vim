@@ -25,14 +25,18 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' 
 
 "stats/wakatime
 Plug 'wakatime/vim-wakatime'
-"discord/time
+"Discord/time
 Plug 'andweeb/presence.nvim'
 
 Plug 'nvim-treesitter/nvim-treesitter'
 
+" Themes
 Plug 'morhetz/gruvbox'
+Plug 'sainnhe/gruvbox-material'
 Plug 'habamax/vim-gruvbit'
 Plug 'sainnhe/sonokai'
+Plug 'nanotech/jellybeans.vim'
+Plug 'projekt0n/github-nvim-theme'
 Plug 'huyvohcmc/atlas.vim'
 Plug 'kooparse/vim-color-desert-night'
 Plug 'ewilazarus/preto'
@@ -60,7 +64,6 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'her/synicons.vim'
 Plug 'ap/vim-css-color'
 
-Plug 'folke/zen-mode.nvim'
 
 "scroll fluido"
 Plug 'karb94/neoscroll.nvim'
@@ -68,7 +71,9 @@ Plug 'karb94/neoscroll.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'nvim-tree/nvim-web-devicons'
+Plug 'folke/zen-mode.nvim'
 
+"Web
 Plug 'turbio/bracey.vim'
 Plug 'mattn/emmet-vim'
 
@@ -96,7 +101,6 @@ Plug 'junegunn/fzf.vim'
 
 call plug#end()
 
-"Tema
 colorscheme gruvbox
 
 let mapleader=" "   "Letra lider(espacio)
