@@ -1,3 +1,6 @@
+" nvim config file
+" https://github.com/msh-dv
+
 syntax on 
 set bg=dark
 set nowrap
@@ -20,22 +23,24 @@ set splitright
 set splitbelow
 
 call plug#begin('~/.local/share/nvim/plugged')
-"Markdown
+
+"markdown
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
 
 "stats/wakatime
 Plug 'wakatime/vim-wakatime'
-"Discord/time
+
+"discord/time
 Plug 'andweeb/presence.nvim'
 
 Plug 'nvim-treesitter/nvim-treesitter'
 
-" Themes
-Plug 'morhetz/gruvbox'
+"themes
+Plug 'sainnhe/edge'
+Plug 'p00f/alabaster.nvim'
+Plug 'owickstrom/vim-colors-paramount'
 Plug 'sainnhe/gruvbox-material'
-Plug 'habamax/vim-gruvbit'
 Plug 'sainnhe/sonokai'
-Plug 'nanotech/jellybeans.vim'
 Plug 'projekt0n/github-nvim-theme'
 Plug 'huyvohcmc/atlas.vim'
 Plug 'kooparse/vim-color-desert-night'
@@ -64,7 +69,6 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'her/synicons.vim'
 Plug 'ap/vim-css-color'
 
-
 "scroll fluido"
 Plug 'karb94/neoscroll.nvim'
 
@@ -73,24 +77,29 @@ Plug 'nvim-lualine/lualine.nvim'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'folke/zen-mode.nvim'
 
-"Web
+"web
 Plug 'turbio/bracey.vim'
 Plug 'mattn/emmet-vim'
+Plug 'vim-scripts/loremipsum'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-"Dashboard
+"dashboard
 Plug 'nvimdev/dashboard-nvim'
-"Tagbar
+
+"tagbar
 Plug 'preservim/tagbar'
-"Comentarios
+
+"comentarios
 Plug 'tpope/vim-commentary'
-"Surround
+
+"surround
 Plug 'kylechui/nvim-surround'
-"Git
+
+"git
 Plug 'tpope/vim-fugitive'
 
-"Game
+"game
 Plug 'johngrib/vim-game-code-break'
 Plug 'alec-gibson/nvim-tetris'
 Plug 'seandewar/killersheep.nvim'
@@ -100,11 +109,46 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 call plug#end()
+"bracey browser
+let g:bracey_browser_command = 'google-chrome-stable' "set browser to google-chrome
 
-colorscheme gruvbox
+" theme config for gruvbox-material 
+let g:gruvbox_material_better_performance = 1
+let g:gruvbox_material_foreground = 'mix'          "material / mix / original 
+let g:gruvbox_material_background = 'hard'         "hard / medium / soft
+
+colorscheme gruvbox-material
+
+" theme config for everforest
+"
+" let g:everforest_background = 'hard'
+" let g:everforest_better_performance = 1
+
+" colorscheme everforest
+
+" theme config for sonokai 
+
+" let g:sonokai_style = 'espresso'
+" let g:sonokai_better_performance = 1
+
+" colorscheme sonokai 
+
+
+" theme config for edge 
+
+" let g:edge_dim_foreground = 0
+" let g:edge_style = 'aura'
+" let g:edge_better_performance = 1
+
+" colorscheme edge 
+
+"emmet
+let g:user_emmet_leader_key=',' "Doble coma para completar la plantilla
+let g:tagalong_verbose = 1
 
 let mapleader=" "   "Letra lider(espacio)
-"Atajos personalizados
+
+"keymaps
 nmap <Leader>nt :NvimTreeFindFile<CR>
 nmap <Leader>nr :NvimTreeRefresh<CR>
 nmap <Leader>nc :NvimTreeToggle<CR>
@@ -112,7 +156,6 @@ nmap <Leader>t :TagbarToggle<CR>
 nmap <Leader>tn :TagbarJumpNext<CR>
 nmap <Leader>tp :TagbarJumpPrev<CR>
 nmap <Leader>ts :TagbarShowTag<CR>
-
 
 nmap <Leader>w :w<CR>
 nmap <Leader>q :q<CR>
@@ -122,7 +165,6 @@ nmap <Leader>ww :wq<CR>
 nmap <Leader>, :tabprevious<CR>
 nmap <Leader>. :tabnext<CR>
 
-nmap <Leader>di :ALEDisable<CR>
 nmap <Leader>dc :CocDisable<CR>
 
 nmap <Leader>vv :!vivaldi-stable index.html<CR>
@@ -133,14 +175,13 @@ nmap <Leader>A :AirlineToggle<CR>
 nmap <Leader>Z :ZenMode<CR>
 nmap <Leader>N :tabnew file<CR>
 
-
-
-
-"Quitar el marcado despues de una busqueda
+"quitar el marcado despues de una busqueda
 nmap <Leader>s :noh<CR>
-"Regresar a la marca pasada
+
+"regresar a la marca pasada
 nmap <Leader>rr ``<CR>
-"Elegir una marca
+
+"elegir una marca
 nmap <Leader>r `
 
 nnoremap <C-h> <C-w>h
@@ -148,14 +189,12 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-"Cierre de caracteres
 inoremap ( ()<Esc>i
 inoremap { {}<Esc>i
 inoremap {<CR> {<CR>}<Esc>0
 inoremap [ []<Esc>
 inoremap " ""<Esc>i
 inoremap ' ''<Esc>i
-
 
 inoremap <silent><expr> <TAB>
       \ coc#pum#visible() ? coc#pum#next(1) :
@@ -165,13 +204,8 @@ inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-
-"Desarrollo web emmet
-let g:user_emmet_leader_key=',' "Doble coma para completar la plantilla
-let g:tagalong_verbose = 1
-
-
 lua << END
+
 
 require('killersheep').setup()
 
@@ -192,7 +226,7 @@ require('lualine').setup {
     globalstatus = false,
     refresh = {
       statusline = 1000,
-      tabline = 1000,
+      tabline=1000,
       winbar = 1000,
     }
   },
@@ -280,7 +314,6 @@ require("dashboard").setup({
     },
   })
 
-
 require ("toggleterm").setup({
  size = 20,
  open_mapping = [[<c-\>]],
@@ -318,9 +351,6 @@ function _G.set_terminal_keymaps()
 end
 
 vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
-
-
-
 
 require("nvim-tree").setup{
 actions = {
