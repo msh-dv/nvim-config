@@ -197,13 +197,10 @@ nmap <Leader>N :tabnew file<CR>
 nmap <Leader>G :!google-chrome-stable index.html<CR>
 nmap <Leader>ss :!sass -w css/style.scss css/style.css<CR>
 
-"quitar el marcado despues de una busqueda
 nmap <Leader>s :noh<CR>
 
-"regresar a la marca pasada
 nmap <Leader>rr ``<CR>
 
-"elegir una marca
 nmap <Leader>r `
 
 nnoremap <C-h> <C-w>h
@@ -228,7 +225,7 @@ inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
 
 lua << END
 require('gruvbox').setup({
-  terminal_colors = true, -- add neovim terminal colors
+  terminal_colors = true, 
   undercurl = true,
   underline = true,
   bold = true,
@@ -244,8 +241,8 @@ require('gruvbox').setup({
   invert_signs = false,
   invert_tabline = true,
   invert_intend_guides = false,
-  inverse = true, -- invert background for search, diffs, statuslines and errors
-  contrast = "hard", -- can be "hard", "soft" or empty string
+  inverse = true, 
+  contrast = "hard", 
   palette_overrides = {},
   overrides = {},
   dim_inactive = false,
